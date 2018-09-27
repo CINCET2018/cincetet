@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { Packaging } from '../models/Packaging';
 import { Customer } from '../models/Customer';
+import { Product } from '../models/Product';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,12 @@ export class DatabaseService {
 //declaracion URL
   private urlPackaging:string ='Packaging';
   private urlCustomer:string ='Customer';
+  private urlProduct:string ='Product';
 
 //Declaracion Listas
   listPackaging: AngularFireList<any>;
   listCustomer: AngularFireList<any>;
+  listProduct: AngularFireList<any>;
   
   constructor(private firebase:AngularFireDatabase) { }
 
@@ -24,6 +27,9 @@ export class DatabaseService {
   }
   initListCustomer(){
     this.listCustomer = this.firebase.list(this.urlCustomer);
+  }
+  initListProduct(){
+    this.listProduct = this.firebase.list(this.urlProduct);
   }
 
 
@@ -35,6 +41,10 @@ export class DatabaseService {
   getListCustomer(){
     this.initListCustomer();
     return this.listCustomer;
+  }
+  getListProduct(){
+    this.initListProduct();
+    return this.listProduct;
   }
 
 
@@ -54,6 +64,16 @@ export class DatabaseService {
       location:customer.location, 
     });
   }
+  updateListProduct(product:Product){
+    this.initListPackaging();
+    this.listCustomer.update(product.$key,{
+      name:product.name, 
+      packaging:product.packaging, 
+      productType:product.productType, 
+      unitPrice:product.unitPrice, 
+      retailPrice:product.retailPrice, 
+    });
+  }
 
   //INSERT
   insertListPackaging(packaging:Packaging){
@@ -70,6 +90,16 @@ export class DatabaseService {
       location:customer.location, 
     });
   }
+  insertListProduct(product:Product){
+    this.initListPackaging();
+    this.listCustomer.push({
+      name:product.name, 
+      packaging:product.packaging, 
+      productType:product.productType, 
+      unitPrice:product.unitPrice, 
+      retailPrice:product.retailPrice, 
+    });
+  }
 
   //DELETE
   deleteListPackaging($key: string){
@@ -79,6 +109,10 @@ export class DatabaseService {
   deleteListCustomer($key: string){
     this.initListCustomer();
     this.listCustomer.remove($key);
+  }
+  deleteListProduct($key: string){
+    this.initListProduct();
+    this.listProduct.remove($key);
   }
 }
 
