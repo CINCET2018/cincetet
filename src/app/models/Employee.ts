@@ -3,4 +3,5 @@ export class Employee {
     name : string;
     phone : string;
     email : string;
+    enable : boolean;
 }

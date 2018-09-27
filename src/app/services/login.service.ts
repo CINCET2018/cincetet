@@ -60,7 +60,7 @@ export class LoginService {
             .subscribe(item => {
               console.log(item.length);
               if (item.length == 0) {
-                this.dbService.insertListEmployee({
+                this.dbService.insertListPendingUser({
                   $key: this.userDetails.uid.toString(),
                   name: this.userDetails.displayName.toString(),
                   email: this.userDetails.email.toString(),

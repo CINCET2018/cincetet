@@ -115,15 +115,15 @@ export class DatabaseService {
   }
   updateListEmployee(employee:Employee){
     this.initListEmployee();
-    this.listProduct.update(employee.$key,{
+    this.listEmployee.update(employee.$key,{
       name:employee.name, 
       phone:employee.phone, 
       email:employee.email
     });
   }
   updateListPendingUser(user:Employee){
-    this.initListEmployee();
-    this.listProduct.update(user.$key,{
+    this.initListPendingUser();
+    this.listPendingUser.update(user.$key,{
       name:user.name, 
       phone:user.phone, 
       email:user.email
