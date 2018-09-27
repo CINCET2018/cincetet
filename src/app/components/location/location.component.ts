@@ -67,11 +67,11 @@ export class LocationComponent implements OnInit {
     tempStudent.Tipo_Negocio=this.Tipo_Negocio;   
     this.showDialog=true; */
     console.log(this.locationForm.value);
-    this.locationService.insertLocation(this.locationForm.value as Location).subscribe(m=>{
+/*     this.locationService.insertLocation(this.locationForm.value as Location).subscribe(m=>{
       this.showDialog=false;
       this.openSnackBar("Datos Ingresados Correctamente", "Continuar");
       this.initStudentForm();
-    });
+    }); */
   }
 
   //Mesajes
