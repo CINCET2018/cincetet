@@ -12,47 +12,43 @@ export class PackagingComponent implements OnInit {
   AddPackagingForm : FormGroup;
   displayedColumns: string[] = ['description','Eliminar'];
   dataSource = [];
-  // PackageList=[];
   constructor(private manageBD: DatabaseService) { }
   
 
   ngOnInit() {
     this.AddPackagingForm = new FormGroup({
-      typeSnack: new FormControl('',[
+      typePackaging: new FormControl('',[
         Validators.required])
     });
-    // this.getPackagingList();
+    this.getPackagingList();
   }
 
-  // getPackagingList(){
-  //   this.manageBD.getListPackaging().snapshotChanges().subscribe(item => {
-  //     this.dataSource = Array<Packaging>();
-  //     item.forEach(element => {
-  //       let x = element.payload.toJSON();
-  //       x['$key'] = element.key;
-  //       this.dataSource.push(x as Packaging)
-  //       console.log(x);
-  //     })
-  //   });
-  // }
-  // addPackaging(){
-  //   let objeto =new Packaging();
-  //   objeto.description=this.AddPackagingForm.get('typePackaging').value;
-  //   this.manageBD.insertListOptions(objeto);
-  //   this.AddPackagingForm.reset();
-  // }
+  getPackagingList(){
+    this.manageBD.getListPackaging().snapshotChanges().subscribe(item => {
+      this.dataSource = Array<Packaging>();
+      item.forEach(element => {
+        let x = element.payload.toJSON();
+        x['$key'] = element.key;
+        this.dataSource.push(x as Packaging)
+        console.log(x);
+      })
+    });
+  }
+  addPackaging(){
+    let objeto =new Packaging();
+    objeto.description=this.AddPackagingForm.get('typePackaging').value;
+    objeto.enable=true;
+    this.manageBD.insertListPackaging(objeto);
+    this.AddPackagingForm.reset();
+  }
 
-  // delSnack(k: string ){
-  //     this.dataSource.forEach(element => {
-  //       if(!element.Enable){
-  //         this.manageBD.deleteListPackaging(element.$Key);
-  //       }
-  //     });
-  // }
+  delPackaging(k: string ){
+      this.manageBD.deleteListPackaging(k);
+  }
 
-  // getErrorMessage(control:string) {
-  //   if(control=='typePackaging')
-  //   return this.AddPackagingForm.get(control).hasError('required') ? 'Debe ingresar el tipo de embalaje' :'';
-  // }
+  getErrorMessage(control:string) {
+    if(control=='typePackaging')
+    return this.AddPackagingForm.get(control).hasError('required') ? 'Debe ingresar el tipo de embalaje' :'';
+  }
 
 }
