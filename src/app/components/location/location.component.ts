@@ -15,6 +15,7 @@ export class LocationComponent implements OnInit {
 
   locationForm:FormGroup;
   showDialog: boolean;
+  locationList : Location[];
 
 
   constructor(
@@ -24,69 +25,87 @@ export class LocationComponent implements OnInit {
 
   ngOnInit() {
      this.locationForm = new FormGroup({
-      Geolocalización: new FormControl('',[
+      $key:new FormControl(),
+      geolocation: new FormControl('',[
         Validators.required]),
-      Dirección: new FormControl('',[
+      address: new FormControl('',[
         Validators.required]),
-      Municipio_Corregimiento: new FormControl('',[
+      city: new FormControl('',[
         Validators.required]),
-      Tipo_Negocio: new FormControl('',[
+      branchType: new FormControl('',[
         Validators.required])
-    });     
+    });  
+    
+    let listLocations =this.locationService.getLocations()
+     .snapshotChanges()
+    .subscribe(item => {
+      console.log(item);
+      this.locationList = [];
+      item.forEach(element =>{
+        let x = element.payload.toJSON();
+        x["$key"] = element.key;
+        this.locationList.push(x as Location);
+      });
+    });    
   }
 
-  initStudentForm(){
+  initlocationForm(){
     this.locationForm.reset();
-    this.locationForm.setValue({Geolocalización:'',Dirección:'',Municipio_Corregimiento:''});
+    this.locationForm.setValue({
+      $key:'',
+      geolocation:'',
+      address:'',
+      city:'',
+      branchType:''
+    });
   }
   getErrorMessage(control:string) {
-    if(control=='Geolocalización')
+    if(control=='geolocation')
     return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar La Geolocalización' :
             '';
-    if(control=='Dirección')
+    if(control=='address')
     return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar La Dirección' :
             '';
-    if(control=='Municipio_Corregimiento')
+    if(control=='city')
     return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar El Municipio o Corregimiento' :
             '';
-    if(control=='Tipo_Negocio')
+    if(control=='branchType')
     return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar El Tipo De Negocio' :
                     '';            
   }
-  
-  
+    
   onSubmit(){
     console.log("Funciona");
-    this.insertLocations();
-  }
-  insertLocations(){
-/*     let tempStudent= new Location();
-    tempStudent.Geolocalización=this.Geolocalización;
-    tempStudent.Dirección=this.Dirección;
-    tempStudent.Municipio_Corregimiento=this.Municipio_Corregimiento;
-    tempStudent.Tipo_Negocio=this.Tipo_Negocio;   
-    this.showDialog=true; */
-    console.log(this.locationForm.value);
-/*     this.locationService.insertLocation(this.locationForm.value as Location).subscribe(m=>{
-      this.showDialog=false;
-      this.openSnackBar("Datos Ingresados Correctamente", "Continuar");
-      this.initStudentForm();
-    }); */
+    this.initlocationForm();
   }
 
+  insertLocations(){
+    if(this.locationForm.value.$key == null){
+      this.locationService.insertListLocation(this.locationForm.value as Location);
+    }else{
+      this.locationService.updateListLocation(this.locationForm.value as Location);
+    }
+    this.locationForm.reset();
+  }
+
+  deleteLocations($key: string){
+    console.log('eliminar');
+    this.locationService.deleteListLocation($key);
+  }
+  updateLocations(location: Location){
+    console.log('actualizar');
+    this.locationForm.setValue({
+      $key:location.$key,
+      geolocation:location.geolocation,
+      address:location.address,
+      city:location.city,
+      branchType:location.branchType
+    });
+  }
   //Mesajes
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
-  }
-
-  delete(){
-    console.log('eliminar');
-
-  }
-
-  update(){
-    console.log('actualizar');
   }
 }
