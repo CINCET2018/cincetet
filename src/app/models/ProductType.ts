@@ -1,4 +1,4 @@
 export class ProductType{   
-    $Key:string;
-    Descripción:string;
+    $key:string;
+    description:string;
 }
