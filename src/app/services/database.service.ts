@@ -74,7 +74,13 @@ export class DatabaseService {
   getListPendingUser(){
     this.initListPendingUser();
     return this.listPendingUser;
-  }
+  }   
+  getPendingUser(user:string){
+    return this.firebase.list(this.urlPendingUser+'/'+user);
+  }   
+  getEmployee(user:string){
+    return this.firebase.list(this.urlEmployee+'/'+user);
+  } 
 
 
 

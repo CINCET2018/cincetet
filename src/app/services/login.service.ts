@@ -4,6 +4,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import * as firebase from 'firebase';
 //import { ManageDBService } from './database.service';
 import { Employee } from '../models/Employee';
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class LoginService {
   public tpUser: number = 2;
   public userData: Employee;
 
-  constructor(private _firebaseAuth: AngularFireAuth) {
+  constructor(private _firebaseAuth: AngularFireAuth, private dbService:DatabaseService) {
     this.user = null;
     this.user = _firebaseAuth.authState;
     this.user.subscribe(
@@ -49,20 +50,21 @@ export class LoginService {
     //2: usuario nuevo
     this.userData = null;
     this.tpUser = 2;
-    /*this.subscrition1 = this.dbService.getUser(this.userDetails.uid.toString())
+    this.subscrition1 = this.dbService.getPendingUser(this.userDetails.uid.toString())
       .snapshotChanges()
       .subscribe(item => {
         console.log(item.length);
         if (item.length == 0) {
-          this.subscrition2 = this.dbService.getUserAcepted(this.userDetails.uid.toString())
+          this.subscrition2 = this.dbService.getEmployee(this.userDetails.uid.toString())
             .snapshotChanges()
             .subscribe(item => {
               console.log(item.length);
               if (item.length == 0) {
-                this.dbService.insertListUser({
+                this.dbService.insertListEmployee({
                   $key: this.userDetails.uid.toString(),
                   name: this.userDetails.displayName.toString(),
-                  email: this.userDetails.email.toString()
+                  email: this.userDetails.email.toString(),
+                  phone:'',
                 });
                 this.tpUser = 2;
               } else
@@ -73,7 +75,7 @@ export class LoginService {
           this.tpUser = 0;
       });
 
-      */
+      
 
 
 
