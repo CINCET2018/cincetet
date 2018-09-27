@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationService } from "../../services/location.service";
+import { DatabaseService } from '../../services/database.service';
 
 import {NgForm, FormGroup, FormControl, Validators} from '@angular/forms';
 import { Location } from '../../models/Location';
@@ -18,8 +18,8 @@ export class LocationComponent implements OnInit {
 
 
   constructor(
-    private locationService: LocationService,
-    private snackBar: MatSnackBar;
+    private locationService: DatabaseService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {

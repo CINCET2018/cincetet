@@ -18,6 +18,7 @@ export class DatabaseService {
   private urlTpProduct:string ='TpProduct';
   private urlEmployee:string ='Employee';
   private urlPendingUser:string ='PendingUser';
+  private urlLocation:string ='Location';
 
 //Declaracion Listas******************************************************************
   listPackaging: AngularFireList<any>;
@@ -26,7 +27,7 @@ export class DatabaseService {
   listTpProduct: AngularFireList<any>;
   listEmployee: AngularFireList<any>;
   listPendingUser: AngularFireList<any>;
-  
+  listLocation: AngularFireList<any>;  
   constructor(private firebase:AngularFireDatabase) { }
 
   //INICIALIZACION******************************************************************
@@ -48,6 +49,10 @@ export class DatabaseService {
   initListPendingUser(){
     this.listPendingUser = this.firebase.list(this.urlPendingUser);
   }
+  initLisLocation(){
+    this.listLocation = this.firebase.list(this.urlLocation);
+  }
+
 
 
   //GET DATA******************************************************************
@@ -81,8 +86,10 @@ export class DatabaseService {
   getEmployee(user:string){
     return this.firebase.list(this.urlEmployee+'/'+user);
   } 
-
-
+  getLocations(){
+    this.initListLocation();
+    return this.listLocation;
+  }   
 
   //UPDATE******************************************************************
   updateListPackagings(packaging:Packaging){
@@ -129,6 +136,16 @@ export class DatabaseService {
       email:user.email
     });
   }
+  updateListLocation(location:Location){
+    this.initListLocation();
+    this.listLocation.update(location.$key,{
+      geolocation:location.geolocation, 
+      address:location.address, 
+      city:location.city,
+      branchType:location.branchType
+    });
+  }
+  }  
 
   //INSERT******************************************************************
   insertListPackaging(packaging:Packaging){
@@ -165,6 +182,15 @@ export class DatabaseService {
   insertListPendingUser(user:Employee){
     this.updateListPendingUser(user);
   }
+  updateListLocation(location:Location){
+    this.initListLocation();
+    this.listLocation.push({
+      geolocation:location.geolocation, 
+      address:location.address, 
+      city:location.city,
+      branchType:location.branchType
+    });
+  }
 
   //DELETE******************************************************************
   deleteListPackaging($key: string){
@@ -191,5 +217,9 @@ export class DatabaseService {
     this.initListPendingUser();
     this.listPendingUser.remove($key);
   }
+  deleteListLocation($key: string){
+    this.initLisLocation();
+    this.listLocation.remove($key);
+  }  
 }
 
