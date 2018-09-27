@@ -5,6 +5,7 @@ import { Customer } from '../models/Customer';
 import { Product } from '../models/Product';
 import { ProductType } from '../models/ProductType';
 import { Employee } from '../models/Employee';
+import { Location } from '../models/Location';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class DatabaseService {
   initListPendingUser(){
     this.listPendingUser = this.firebase.list(this.urlPendingUser);
   }
-  initLisLocation(){
+  initListLocation(){
     this.listLocation = this.firebase.list(this.urlLocation);
   }
 
@@ -144,8 +145,7 @@ export class DatabaseService {
       city:location.city,
       branchType:location.branchType
     });
-  }
-  }  
+  } 
 
   //INSERT******************************************************************
   insertListPackaging(packaging:Packaging){
@@ -182,7 +182,7 @@ export class DatabaseService {
   insertListPendingUser(user:Employee){
     this.updateListPendingUser(user);
   }
-  updateListLocation(location:Location){
+  insertListLocation(location:Location){
     this.initListLocation();
     this.listLocation.push({
       geolocation:location.geolocation, 
@@ -218,7 +218,7 @@ export class DatabaseService {
     this.listPendingUser.remove($key);
   }
   deleteListLocation($key: string){
-    this.initLisLocation();
+    this.initListLocation();
     this.listLocation.remove($key);
   }  
 }
