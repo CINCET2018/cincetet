@@ -1,4 +1,5 @@
 export class Packaging{   
-    $Key:string;
-    Descripción:string;
+    $key:string;
+    description:string;
+    enable:boolean;
 }
