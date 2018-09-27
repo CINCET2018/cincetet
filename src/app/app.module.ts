@@ -1,5 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+//angular firebase coneccion
+import { AngularFireModule } from "angularfire2";
+import { AngularFireAuthModule } from "angularfire2/auth";
+import { AngularFireDatabaseModule } from "angularfire2/database";
+import { environment } from '../environments/environment';
+
 
 import { AppComponent } from './app.component';
 import { ProductComponent } from './components/product/product.component';
@@ -11,6 +17,46 @@ import { GeolocationComponent } from './components/geolocation/geolocation.compo
 import { BranchTypeComponent } from './components/branch-type/branch-type.component';
 import { SaleComponent } from './components/sale/sale.component';
 import { EmployeeComponent } from './components/employee/employee.component';
+import {
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatTreeModule,
+  
+} from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -22,11 +68,16 @@ import { EmployeeComponent } from './components/employee/employee.component';
     LocationComponent,
     GeolocationComponent,
     BranchTypeComponent,
-    SaleComponent,
+    SaleComponent,    
     EmployeeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AngularFireModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
