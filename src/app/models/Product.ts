@@ -5,4 +5,5 @@ export class Product{
     productType : string;
     unitPrice : number;
     retailPrice : number;
+    enable : boolean;
 }
