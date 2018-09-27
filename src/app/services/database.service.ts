@@ -4,27 +4,32 @@ import { Packaging } from '../models/Packaging';
 import { Customer } from '../models/Customer';
 import { Product } from '../models/Product';
 import { ProductType } from '../models/ProductType';
+import { Employee } from '../models/Employee';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
 
-//declaracion URL
+//declaracion URL******************************************************************
   private urlPackaging:string ='Packaging';
   private urlCustomer:string ='Customer';
   private urlProduct:string ='Product';
   private urlTpProduct:string ='TpProduct';
+  private urlEmployee:string ='Employee';
+  private urlPendingUser:string ='PendingUser';
 
-//Declaracion Listas
+//Declaracion Listas******************************************************************
   listPackaging: AngularFireList<any>;
   listCustomer: AngularFireList<any>;
   listProduct: AngularFireList<any>;
   listTpProduct: AngularFireList<any>;
+  listEmployee: AngularFireList<any>;
+  listPendingUser: AngularFireList<any>;
   
   constructor(private firebase:AngularFireDatabase) { }
 
-  //INICIALIZACION
+  //INICIALIZACION******************************************************************
   initListPackaging(){
     this.listPackaging = this.firebase.list(this.urlPackaging);
   }
@@ -37,9 +42,15 @@ export class DatabaseService {
   initListTpProduct(){
     this.listTpProduct = this.firebase.list(this.urlTpProduct);
   }
+  initListEmployee(){
+    this.listEmployee = this.firebase.list(this.urlEmployee);
+  }
+  initListPendingUser(){
+    this.listPendingUser = this.firebase.list(this.urlPendingUser);
+  }
 
 
-  //GET DATA
+  //GET DATA******************************************************************
   getListPackaging(){
     this.initListPackaging();
     return this.listPackaging;
@@ -56,10 +67,18 @@ export class DatabaseService {
     this.initListTpProduct();
     return this.listTpProduct;
   }
+  getListEmployee(){
+    this.initListEmployee();
+    return this.listEmployee;
+  }
+  getListPendingUser(){
+    this.initListPendingUser();
+    return this.listPendingUser;
+  }
 
 
 
-  //UPDATE
+  //UPDATE******************************************************************
   updateListPackagings(packaging:Packaging){
     this.initListPackaging();
     this.listPackaging.update(packaging.$key,{description:packaging.description});
@@ -88,8 +107,24 @@ export class DatabaseService {
     this.initListTpProduct();
     this.listTpProduct.update(tpProduct.$key,{description:tpProduct.description});
   }
+  updateListEmployee(employee:Employee){
+    this.initListEmployee();
+    this.listProduct.update(employee.$key,{
+      name:employee.name, 
+      phone:employee.phone, 
+      email:employee.email
+    });
+  }
+  updateListPendingUser(user:Employee){
+    this.initListEmployee();
+    this.listProduct.update(user.$key,{
+      name:user.name, 
+      phone:user.phone, 
+      email:user.email
+    });
+  }
 
-  //INSERT
+  //INSERT******************************************************************
   insertListPackaging(packaging:Packaging){
     this.initListPackaging();
     this.listPackaging.push({description: packaging.description});
@@ -118,8 +153,14 @@ export class DatabaseService {
     this.initListTpProduct();
     this.listTpProduct.push({description:tpProduct.description});
   }
+  insertListEmployee(employee:Employee){
+    this.updateListEmployee(employee);
+  }
+  insertListPendingUser(user:Employee){
+    this.updateListPendingUser(user);
+  }
 
-  //DELETE
+  //DELETE******************************************************************
   deleteListPackaging($key: string){
     this.initListPackaging();
     this.listPackaging.remove($key);
@@ -135,6 +176,14 @@ export class DatabaseService {
   deleteListTpProduct($key: string){
     this.initListTpProduct();
     this.listTpProduct.remove($key);
+  }
+  deleteListEmployee($key: string){
+    this.initListEmployee();
+    this.listEmployee.remove($key);
+  }
+  deleteListPendingUser($key: string){
+    this.initListPendingUser();
+    this.listPendingUser.remove($key);
   }
 }
 
