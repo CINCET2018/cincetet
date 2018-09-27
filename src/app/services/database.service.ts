@@ -3,6 +3,7 @@ import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { Packaging } from '../models/Packaging';
 import { Customer } from '../models/Customer';
 import { Product } from '../models/Product';
+import { ProductType } from '../models/ProductType';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,13 @@ export class DatabaseService {
   private urlPackaging:string ='Packaging';
   private urlCustomer:string ='Customer';
   private urlProduct:string ='Product';
+  private urlTpProduct:string ='TpProduct';
 
 //Declaracion Listas
   listPackaging: AngularFireList<any>;
   listCustomer: AngularFireList<any>;
   listProduct: AngularFireList<any>;
+  listTpProduct: AngularFireList<any>;
   
   constructor(private firebase:AngularFireDatabase) { }
 
@@ -30,6 +33,9 @@ export class DatabaseService {
   }
   initListProduct(){
     this.listProduct = this.firebase.list(this.urlProduct);
+  }
+  initListTpProduct(){
+    this.listTpProduct = this.firebase.list(this.urlTpProduct);
   }
 
 
@@ -46,6 +52,10 @@ export class DatabaseService {
     this.initListProduct();
     return this.listProduct;
   }
+  getListTpProduct(){
+    this.initListTpProduct();
+    return this.listTpProduct;
+  }
 
 
 
@@ -55,7 +65,7 @@ export class DatabaseService {
     this.listPackaging.update(packaging.$key,{description:packaging.description});
   }
   updateListCustomer(customer:Customer){
-    this.initListPackaging();
+    this.initListCustomer();
     this.listCustomer.update(customer.$key,{
       name:customer.name, 
       document:customer.document, 
@@ -65,14 +75,18 @@ export class DatabaseService {
     });
   }
   updateListProduct(product:Product){
-    this.initListPackaging();
-    this.listCustomer.update(product.$key,{
+    this.initListProduct();
+    this.listProduct.update(product.$key,{
       name:product.name, 
       packaging:product.packaging, 
       productType:product.productType, 
       unitPrice:product.unitPrice, 
       retailPrice:product.retailPrice, 
     });
+  }
+  updateListTpProduct(tpProduct:ProductType){
+    this.initListTpProduct();
+    this.listTpProduct.update(tpProduct.$key,{description:tpProduct.description});
   }
 
   //INSERT
@@ -91,14 +105,18 @@ export class DatabaseService {
     });
   }
   insertListProduct(product:Product){
-    this.initListPackaging();
-    this.listCustomer.push({
+    this.initListProduct();
+    this.listProduct.push({
       name:product.name, 
       packaging:product.packaging, 
       productType:product.productType, 
       unitPrice:product.unitPrice, 
       retailPrice:product.retailPrice, 
     });
+  }
+  insertListTpProduct(tpProduct:ProductType){
+    this.initListTpProduct();
+    this.listTpProduct.push({description:tpProduct.description});
   }
 
   //DELETE
@@ -113,6 +131,10 @@ export class DatabaseService {
   deleteListProduct($key: string){
     this.initListProduct();
     this.listProduct.remove($key);
+  }
+  deleteListTpProduct($key: string){
+    this.initListTpProduct();
+    this.listTpProduct.remove($key);
   }
 }
 
