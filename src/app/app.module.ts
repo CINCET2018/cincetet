@@ -59,6 +59,7 @@ import {
   
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -72,7 +73,7 @@ import { HttpClientModule } from '@angular/common/http';
     GeolocationComponent,
     BranchTypeComponent,
     SaleComponent,    
-    EmployeeComponent
+    EmployeeComponent, LoginComponent
   ],
   imports: [
     BrowserModule,
