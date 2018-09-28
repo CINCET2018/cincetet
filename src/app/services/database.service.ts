@@ -193,21 +193,21 @@ export class DatabaseService {
   }
 
   //DELETE******************************************************************
-  deleteListPackaging($key: string){
-    this.initListPackaging();
-    this.listPackaging.remove($key);
+  deleteListPackaging(packaging:Packaging){
+    packaging.enable=false;
+    this.updateListPackagings(packaging);
   }
-  deleteListCustomer($key: string){
-    this.initListCustomer();
-    this.listCustomer.remove($key);
+  deleteListCustomer(customer:Customer){
+    customer.enable=false;
+    this.updateListCustomer(customer);
   }
-  deleteListProduct($key: string){
-    this.initListProduct();
-    this.listProduct.remove($key);
+  deleteListProduct(product:Product){
+    product.enable=false;
+    this.updateListProduct(product);
   }
-  deleteListTpProduct($key: string){
-    this.initListTpProduct();
-    this.listTpProduct.remove($key);
+  deleteListTpProduct(tpProduct:tpProduct){
+    tpProduct.enable=false;
+    this.updateListTpProduct(tpProduct);
   }
   deleteListEmployee($key: string){
     this.initListEmployee();
