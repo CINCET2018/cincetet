@@ -32,7 +32,10 @@ export class BranchTypeComponent implements OnInit {
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
-        this.dataSource.push(x as BranchType)
+        if((x as BranchType).enable){
+          this.dataSource.push(x as BranchType);
+        }
+        
         //console.log(x);
       })
     });
