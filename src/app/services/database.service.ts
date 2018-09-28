@@ -214,9 +214,9 @@ export class DatabaseService {
     tpProduct.enable=false;
     this.updateListTpProduct(tpProduct);
   }
-  deleteListEmployee($key: string){
-    this.initListEmployee();
-    this.listEmployee.remove($key);
+  deleteListEmployee(employee:Employee){
+    employee.enable=false;
+    this.updateListEmployee(employee);
   }
   deleteListPendingUser($key: string){
     this.initListPendingUser();
