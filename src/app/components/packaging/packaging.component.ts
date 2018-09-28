@@ -42,7 +42,7 @@ export class PackagingComponent implements OnInit {
     this.AddPackagingForm.reset();
   }
 
-  delPackaging(k: string ){
+  delPackaging(k: Packaging ){
       this.manageBD.deleteListPackaging(k);
   }
 
