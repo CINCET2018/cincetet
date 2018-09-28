@@ -50,6 +50,8 @@ export class LoginService {
     //2: usuario nuevo
     this.userData = null;
     this.tpUser = 2;
+    if (this.userDetails.email!="cincet2018@gmail.com"){
+
     this.subscrition1 = this.dbService.getPendingUser(this.userDetails.uid.toString())
       .snapshotChanges()
       .subscribe(item => {
@@ -75,6 +77,10 @@ export class LoginService {
         else
           this.tpUser = 0;
       });
+    }
+    else{
+      this.tpUser=1;
+    }
 
       
 
