@@ -60,6 +60,8 @@ import {
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -73,7 +75,7 @@ import { LoginComponent } from './components/login/login.component';
     GeolocationComponent,
     BranchTypeComponent,
     SaleComponent,    
-    EmployeeComponent, LoginComponent
+    EmployeeComponent, LoginComponent, NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -121,7 +123,8 @@ import { LoginComponent } from './components/login/login.component';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   entryComponents: [CustomerComponent],
   providers: [],

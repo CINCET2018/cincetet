@@ -1,0 +1,30 @@
+<div *ngIf="this.authService.isLoggedIn() && this.authService.tpUser==1">
+  <mat-card>
+    <!--<mat-card-title>Sistema De Ventas</mat-card-title>-->
+    <mat-card-content>
+      <mat-menu #appMenu="matMenu">
+        <a routerLink="/Ventas"><button mat-menu-item>Ventas</button></a>
+        <a routerLink="/Clientes"><button mat-menu-item>Clientes</button> </a>
+        <a routerLink="/Empleados"><button mat-menu-item>Empleados</button></a>
+        <a routerLink="/Producto"><button mat-menu-item>Producto</button></a>
+        <a routerLink="/TipoEmpaque"><button mat-menu-item>Tipo De Empaque</button></a>
+        <a routerLink="/TipoProducto"><button mat-menu-item>Tipo De Producto</button></a>
+        <a routerLink="/TipoNegocio"><button mat-menu-item>Tipo De Negocio</button></a>
+      </mat-menu>
+
+      <button mat-icon-button [matMenuTriggerFor]="appMenu">
+        <h1>
+          <mat-icon [inline]="true">menu</mat-icon>
+        </h1>
+      </button>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+      <router-outlet></router-outlet>
+  </mat-card>
+</div>
+<div *ngIf="this.authService.isLoggedIn() && this.authService.tpUser==0" class="divAccess">
+  <mat-card>
+    <span> Su usuario No ha Sido Aceptado, Por favor comuniquese con el Administrador </span>
+  </mat-card>
+</div>
