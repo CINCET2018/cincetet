@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<h3 *ngIf="dataSourceUserPending.lenght>0">Usuarios Pendientes</h3>
-<table mat-table [dataSource]="dataSourceUserPending" class="lessons-table mat-elevation-z8" *ngIf="dataSourceUserPending.lenght>0">
+<h3 *ngIf="dataSourceUserPending.length>0">Usuarios Pendientes</h3>
+<table mat-table [dataSource]="dataSourceUserPending" class="lessons-table mat-elevation-z8" *ngIf="dataSourceUserPending.length>0">
 
   <ng-container matColumnDef="key">
       <th mat-header-cell *matHeaderCellDef> Key </th>
@@ -65,7 +65,22 @@
      <!-- Weight Column -->
      <ng-container matColumnDef="phone">
       <th mat-header-cell *matHeaderCellDef> TELEFONO </th>
-      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="active(element.$key)==-1">{{element.phone}}</div>
+        <div *ngIf="active(element.$key)>-1">
+            <form (ngSubmit)="savePhone(element)" [formGroup]="editEmployeeForm">
+                <mat-form-field>
+                  <input matInput placeholder="Telefono" formControlName="phoneEmployee" value="{{element.phone}}" required>
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="noEdit(element.$key)">
+                    <mat-icon class="material-icons md-40">replay</mat-icon>
+                </button>
+                <button type="submit" mat-icon-button color="warn" [disabled]="!editEmployeeForm.valid">
+                    <mat-icon class="material-icons md-40">done</mat-icon>
+                </button>
+              </form>
+        </div>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="delete">
@@ -73,6 +88,14 @@
       <td mat-cell *matCellDef="let element"> 
           <button mat-icon-button color="warn" (click)="delEmployee(element)">
               <mat-icon class="material-icons md-40">delete</mat-icon>
+          </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="update">
+      <th mat-header-cell *matHeaderCellDef> EDITAR </th>
+      <td mat-cell *matCellDef="let element"> 
+          <button mat-icon-button color="warn" (click)="edit(element.$key)">
+              <mat-icon class="material-icons md-40">update</mat-icon>
           </button>
       </td>
     </ng-container>
