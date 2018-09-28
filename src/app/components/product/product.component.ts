@@ -24,7 +24,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.productForm = new FormGroup({
-      key: new FormControl('',[
+      $key: new FormControl('',[
         Validators.required]),
       name: new FormControl('',[
         Validators.required]),
@@ -47,7 +47,7 @@ export class ProductComponent implements OnInit {
   initProductForm(){
     this.productForm.reset();
     this.productForm.setValue({
-      key : '',
+      $key : '',
       name : '',
       packaging : 0,
       productType : 0,
@@ -57,7 +57,7 @@ export class ProductComponent implements OnInit {
   }
 
   getErrorMessage(control:string) {
-    if(control=='key')
+    if(control=='$key')
     return this.productForm.get(control).hasError('required') ? 'Ingrese un código SAP' :
             '';
     if(control=='name')

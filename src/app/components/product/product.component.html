@@ -3,8 +3,8 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="productForm">
 
       <mat-form-field  class="form-group">
-        <input matInput placeholder="Código SAP" formControlName="key" required>
-        <mat-error *ngIf="productForm.get('key').invalid">{{getErrorMessage("key")}}</mat-error>
+        <input matInput placeholder="Código SAP" formControlName="$key" required>
+        <mat-error *ngIf="productForm.get('$key').invalid">{{getErrorMessage("$key")}}</mat-error>
       </mat-form-field>
 
       <mat-form-field class="form-group">

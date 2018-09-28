@@ -34,7 +34,7 @@ export class BranchTypeComponent implements OnInit {
         x['$key'] = element.key;
         if((x as BranchType).enable){
           this.dataSource.push(x as BranchType);
-        }
+        } 
         
         //console.log(x);
       })
