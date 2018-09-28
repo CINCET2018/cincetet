@@ -5,5 +5,5 @@ export class Customer{
     contactPerson : string;
     cellphone : number;
     location : Location;
-    enable: boolean;
+    enable : boolean;
 }
