@@ -14,7 +14,9 @@ export class EmployeeComponent implements OnInit {
   dataSourceUserPending: Employee[]= [];
   dataSourceEmployee: Employee[]= [];
   displayedColumns: string[] = ['Nombre', 'email','phone', 'Aprobar', 'Denegar'];
-  displayedColumnsEmployee: string[] = ['Nombre', 'email','phone','delete'];
+  displayedColumnsEmployee: string[] = ['Nombre', 'email','phone','delete','update'];
+  editActive:string[]=[];
+  editEmployeeForm:FormGroup;
 
   constructor(private manageBD: DatabaseService) { }
 
@@ -34,7 +36,6 @@ export class EmployeeComponent implements OnInit {
         if((x as Employee).enable){
           this.dataSourceEmployee.push(x as Employee)
         }
-        console.log(x);
       })
     });
   }
@@ -48,12 +49,16 @@ export class EmployeeComponent implements OnInit {
         x['$key'] = element.key;
         x['enable'] = true;
         this.dataSourceUserPending.push(x as Employee)
-        console.log(x);
+        console.log(this.dataSourceUserPending);
       })
+      
     });
   }
 
   ngOnInit() {
+    this.editEmployeeForm = new FormGroup({
+      phoneEmployee: new FormControl('')
+    });
     this.getPendingUserList();
     this.getEmployeeList();
   }
@@ -72,4 +77,24 @@ export class EmployeeComponent implements OnInit {
     this.manageBD.deleteListEmployee(k);
   }
 
+  edit(k: string){
+    this.editActive.push(k);
+  }
+  noEdit(k: string){
+    let indice=this.editActive.findIndex(function (key) { return key === k; });
+    if(indice>-1){
+      this.editActive.splice(indice,1);
+    }
+  }
+  savePhone(k: Employee){
+    let objeto=k;
+    objeto.phone=this.editEmployeeForm.get('phoneEmployee').value;
+    this.manageBD.updateListEmployee(objeto);
+    this.noEdit(k.$key);
+  }
+  active(k: string){
+    let indice=this.editActive.findIndex(function (key) { return key === k; });
+    return indice;
+  }
+  
 }
