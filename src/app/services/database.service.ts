@@ -153,7 +153,7 @@ export class DatabaseService {
   //INSERT******************************************************************
   insertListPackaging(packaging:Packaging){
     this.initListPackaging();
-    this.listPackaging.push({description: packaging.description. enable: packaging.enable});
+    this.listPackaging.push({description: packaging.description, enable: packaging.enable});
   }
   insertListCustomer(customer:Customer){
     this.initListCustomer();
