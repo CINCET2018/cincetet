@@ -104,7 +104,8 @@ export class DatabaseService {
       document:customer.document, 
       contactPerson:customer.contactPerson, 
       cellphone:customer.cellphone, 
-      location:customer.location, 
+      location:customer.location,  
+      enable: customer.enable
     });
   }
   updateListProduct(product:Product){
@@ -114,7 +115,8 @@ export class DatabaseService {
       packaging:product.packaging, 
       productType:product.productType, 
       unitPrice:product.unitPrice, 
-      retailPrice:product.retailPrice, 
+      retailPrice:product.retailPrice,  
+      enable: product.enable
     });
   }
   updateListTpProduct(tpProduct:ProductType){
@@ -126,7 +128,8 @@ export class DatabaseService {
     this.listEmployee.update(employee.$key,{
       name:employee.name, 
       phone:employee.phone, 
-      email:employee.email
+      email:employee.email,
+      enable: employee.enable
     });
   }
   updateListPendingUser(user:Employee){
@@ -150,7 +153,7 @@ export class DatabaseService {
   //INSERT******************************************************************
   insertListPackaging(packaging:Packaging){
     this.initListPackaging();
-    this.listPackaging.push({description: packaging.description});
+    this.listPackaging.push({description: packaging.description. enable: packaging.enable});
   }
   insertListCustomer(customer:Customer){
     this.initListCustomer();
@@ -160,6 +163,7 @@ export class DatabaseService {
       contactPerson:customer.contactPerson, 
       cellphone:customer.cellphone, 
       location:customer.location, 
+      enable: customer.enable
     });
   }
   insertListProduct(product:Product){
@@ -170,6 +174,7 @@ export class DatabaseService {
       productType:product.productType, 
       unitPrice:product.unitPrice, 
       retailPrice:product.retailPrice, 
+      enable:product.enable, 
     });
   }
   insertListTpProduct(tpProduct:ProductType){
@@ -188,7 +193,7 @@ export class DatabaseService {
       geolocation:location.geolocation, 
       address:location.address, 
       city:location.city,
-      branchType:location.branchType
+      branchType:location.branchType 
     });
   }
 
