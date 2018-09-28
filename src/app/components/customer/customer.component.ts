@@ -14,8 +14,11 @@ export class CustomerComponent implements OnInit {
 
   AddCustomerFrom : FormGroup;
   dataSource = [];
-  displayedColumns: string[] = ['name', 'document', 'contactPerson', 'cellphone', 'location'];
+  displayedColumns: string[] = ['name', 'document', 'contactPerson', 'cellphone', 'location', 'update'];
   customersList=[];
+  mostrarDatos: boolean;
+  updateEnable=false;
+  selectedElement:Customer;
 
   constructor(private manageBD : DatabaseService) { }
 
@@ -82,6 +85,22 @@ export class CustomerComponent implements OnInit {
 
     this.getCustomerList();
 
+  }
+
+  activarActualizar() : void{
+    this.mostrarDatos = true;
+  }
+  startModifyCustomer(element:Customer){
+    this.updateEnable=true;
+    this.selectedElement=element;
+    this.AddCustomerFrom.setValue({
+      name: element.name,
+      document : element.document,
+      contactPerson: element.contactPerson,
+      cellphone: element.cellphone,
+      location: element.location
+    });
+    this.activarActualizar();
   }
 
 }
