@@ -6,6 +6,7 @@ import { Product } from '../models/Product';
 import { ProductType } from '../models/ProductType';
 import { Employee } from '../models/Employee';
 import { Location } from '../models/Location';
+import { BranchType } from '../models/BranchType';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class DatabaseService {
   private urlEmployee:string ='Employee';
   private urlPendingUser:string ='PendingUser';
   private urlLocation:string ='Location';
+  private urlTpBranch:string ='TpBranch';
 
 //Declaracion Listas******************************************************************
   listPackaging: AngularFireList<any>;
@@ -29,6 +31,8 @@ export class DatabaseService {
   listEmployee: AngularFireList<any>;
   listPendingUser: AngularFireList<any>;
   listLocation: AngularFireList<any>;  
+  listTpBranch: AngularFireList<any>;  
+
   constructor(private firebase:AngularFireDatabase) { }
 
   //INICIALIZACION******************************************************************
@@ -52,6 +56,9 @@ export class DatabaseService {
   }
   initListLocation(){
     this.listLocation = this.firebase.list(this.urlLocation);
+  }
+  initListTpBranch(){
+    this.listTpBranch = this.firebase.list(this.urlTpBranch);
   }
 
 
@@ -91,6 +98,10 @@ export class DatabaseService {
     this.initListLocation();
     return this.listLocation;
   }   
+  getListTpBranch(){
+    this.initListTpBranch();
+    return this.listTpBranch;
+  }
 
   //UPDATE******************************************************************
   updateListPackagings(packaging:Packaging){
@@ -121,7 +132,7 @@ export class DatabaseService {
   }
   updateListTpProduct(tpProduct:ProductType){
     this.initListTpProduct();
-    this.listTpProduct.update(tpProduct.$key,{description:tpProduct.description});
+    this.listTpProduct.update(tpProduct.$key,{description:tpProduct.description, enable:tpProduct.enable});
   }
   updateListEmployee(employee:Employee){
     this.initListEmployee();
@@ -149,6 +160,10 @@ export class DatabaseService {
       branchType:location.branchType
     });
   } 
+  updateListTpBranch(tpBranch:BranchType){
+    this.initListTpBranch();
+    this.listTpBranch.update(tpBranch.$key,{description:tpBranch.description, enable:tpBranch.enable});
+  }
 
   //INSERT******************************************************************
   insertListPackaging(packaging:Packaging){
@@ -167,15 +182,7 @@ export class DatabaseService {
     });
   }
   insertListProduct(product:Product){
-    this.initListProduct();
-    this.listProduct.push({
-      name:product.name, 
-      packaging:product.packaging, 
-      productType:product.productType, 
-      unitPrice:product.unitPrice, 
-      retailPrice:product.retailPrice, 
-      enable:product.enable, 
-    });
+    this.updateListProduct(product);
   }
   insertListTpProduct(tpProduct:ProductType){
     this.initListTpProduct();
@@ -195,6 +202,10 @@ export class DatabaseService {
       city:location.city,
       branchType:location.branchType 
     });
+  }
+  insertListTpBranch(tpBranch:BranchType){
+    this.initListTpBranch();
+    this.listTpBranch.push({description:tpBranch.description, enable:tpBranch.enable});
   }
 
   //DELETE******************************************************************
@@ -226,5 +237,9 @@ export class DatabaseService {
     this.initListLocation();
     this.listLocation.remove($key);
   }  
+  deleteListTpBranch(tpBranch:BranchType){
+    tpBranch.enable=false;
+    this.updateListTpBranch(tpBranch);
+  }
 }
 
