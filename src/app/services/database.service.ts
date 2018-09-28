@@ -95,7 +95,7 @@ export class DatabaseService {
   //UPDATE******************************************************************
   updateListPackagings(packaging:Packaging){
     this.initListPackaging();
-    this.listPackaging.update(packaging.$key,{description:packaging.description});
+    this.listPackaging.update(packaging.$key,{description:packaging.description, enable: packaging.enable});
   }
   updateListCustomer(customer:Customer){
     this.initListCustomer();
