@@ -1,3 +1,40 @@
-<p>
-  branch-type works!
-</p>
+<div class="divaddProductType">
+  <form (ngSubmit)="selectOperation()" [formGroup]="branchTypeForm">
+    <mat-form-field>
+      <input matInput placeholder="Tipo De Negocio" formControlName="description" required>
+      <mat-error *ngIf="branchTypeForm.get('description').invalid">{{getErrorMessage("description")}}</mat-error>
+    </mat-form-field>
+    <button *ngIf="!updateEnable" type="submit" mat-raised-button color="primary" [disabled]="!branchTypeForm.valid"> Agregar </button>
+    <button *ngIf="updateEnable" type="submit" mat-raised-button color="accent" [disabled]="!branchTypeForm.valid"> Modificar </button>
+  </form>
+  <div *ngIf="dataSource.length>0">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>   Descripcion   </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="update">
+            <th mat-header-cell *matHeaderCellDef>   Modificar   </th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-icon-button color="warn" (click)="startModifyBranchType(element)">
+                    <mat-icon class="material-icons md-40">  update  </mat-icon>
+                </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-icon-button color="warn" (click)="deleteBranchType(element)">
+                    <mat-icon class="material-icons md-40">  delete  </mat-icon>
+                </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  </div>
+</div>

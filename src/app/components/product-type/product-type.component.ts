@@ -52,5 +52,4 @@ export class ProductTypeComponent implements OnInit {
     return this.AddProductTypeForm.get(control).hasError('required') ? 'Debe ingresar el tipo de producto' :'';
   }
 
-
 }
