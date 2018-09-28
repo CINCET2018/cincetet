@@ -58,7 +58,7 @@ export class EmployeeComponent implements OnInit {
     this.manageBD.deleteListPendingUser(element.$key);
   }
 
-  delEmployee(k: string ){
+  delEmployee(k: Employee ){
     this.manageBD.deleteListEmployee(k);
   }
 
