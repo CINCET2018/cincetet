@@ -25,7 +25,15 @@ export class EmployeeComponent implements OnInit {
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
-        this.dataSourceEmployee.push(x as Employee)
+        if((x as Employee).enable==null){
+          x['enable']=true;
+        }
+        if((x as Employee).phone==null){
+          x['phone'] = '';
+        }
+        if((x as Employee).enable){
+          this.dataSourceEmployee.push(x as Employee)
+        }
         console.log(x);
       })
     });
@@ -38,6 +46,7 @@ export class EmployeeComponent implements OnInit {
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
+        x['enable'] = true;
         this.dataSourceUserPending.push(x as Employee)
         console.log(x);
       })
@@ -59,6 +68,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   delEmployee(k: Employee ){
+    console.log(k);
     this.manageBD.deleteListEmployee(k);
   }
 
