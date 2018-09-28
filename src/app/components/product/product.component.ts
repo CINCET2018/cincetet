@@ -100,7 +100,7 @@ export class ProductComponent implements OnInit {
   }
 
   deleteProduct(key : string){
-    this.dbService.deleteListProduct(key);
+    //this.dbService.deleteListProduct(key);
   }
 
 }
