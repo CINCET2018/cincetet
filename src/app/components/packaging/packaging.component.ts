@@ -29,7 +29,12 @@ export class PackagingComponent implements OnInit {
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
-        this.dataSource.push(x as Packaging)
+        if((x as Packaging).enable==null){
+          x['enable']=true;
+        }
+        if((x as Packaging).enable){
+          this.dataSource.push(x as Packaging)
+        }
         console.log(x);
       })
     });
