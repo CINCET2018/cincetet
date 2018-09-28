@@ -154,7 +154,8 @@ export class DatabaseService {
   updateListLocation(location:Location){
     this.initListLocation();
     this.listLocation.update(location.$key,{
-      geolocation:location.geolocation, 
+      latitud:location.latitud, 
+      longitud:location.longitud, 
       address:location.address, 
       city:location.city,
       branchType:location.branchType
@@ -197,7 +198,8 @@ export class DatabaseService {
   insertListLocation(location:Location){
     this.initListLocation();
     this.listLocation.push({
-      geolocation:location.geolocation, 
+      latitud:location.latitud, 
+      longitud:location.longitud, 
       address:location.address, 
       city:location.city,
       branchType:location.branchType 

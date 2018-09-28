@@ -11,6 +11,7 @@ export class GeolocationComponent implements OnInit {
   lat: string = '';
   lng: string = '';
 
+  //coordenadas
   @Input() latitud: number;
   @Input() longitud: number;
   @Input() markers: Location[];

@@ -29,8 +29,10 @@ export class LocationComponent implements OnInit {
   ngOnInit() {
      this.locationForm = new FormGroup({
       $key:new FormControl(),
-      geolocation: new FormControl('',[
+      latitud: new FormControl('',[
         Validators.required]),
+      longitud: new FormControl('',[
+          Validators.required]),        
       address: new FormControl('',[
         Validators.required]),
       city: new FormControl('',[
@@ -51,8 +53,7 @@ export class LocationComponent implements OnInit {
         this.locationList.push(x as Location);
         this.markers.push(x as Location);
       });
-    }); 
-     
+    });   
   }
 
   initlocationForm(){
@@ -66,9 +67,12 @@ export class LocationComponent implements OnInit {
     });
   }
   getErrorMessage(control:string) {
-    if(control=='geolocation')
-    return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar La Geolocalización' :
+    if(control=='latitud')
+    return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar La Latitud' :
             '';
+    if(control=='longitud')
+    return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar La Longitud' :
+            '';            
     if(control=='address')
     return this.locationForm.get(control).hasError('required') ? 'Debe Ingresar La Dirección' :
             '';
@@ -107,14 +111,14 @@ export class LocationComponent implements OnInit {
     console.log('actualizar');
     this.locationForm.setValue({
       $key:location.$key,
-      geolocation:location.geolocation,
+      latitud:location.latitud, 
+      longitud:location.longitud, 
       address:location.address,
       city:location.city,
       branchType:location.branchType
     });
-    let jhrjhrjh = String(location.geolocation).split(',');
-    this.latitud = parseFloat(jhrjhrjh[0]);
-    this.longitud = parseFloat(jhrjhrjh[1]);
+    this.latitud = parseFloat(location.latitud);
+    this.longitud = parseFloat(location.longitud);
   }
   //Mesajes
   openSnackBar(message: string, action: string) {

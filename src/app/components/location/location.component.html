@@ -5,10 +5,13 @@
       <div class="example-container">
           <input matInput formControlName="$key" hidden="true">     
         <mat-form-field>
-          <input matInput placeholder="Ingrese la Geolocalización" formControlName="geolocation" required>
-          <mat-error *ngIf="locationForm.get('geolocation').invalid">{{getErrorMessage("geolocation")}}</mat-error>
+          <input matInput placeholder="Ingrese la latitud" formControlName="latitud" required>
+          <mat-error *ngIf="locationForm.get('latitud').invalid">{{getErrorMessage("latitud")}}</mat-error>
         </mat-form-field>
-
+        <mat-form-field>
+          <input matInput placeholder="Ingrese la longitud" formControlName="longitud" required>
+          <mat-error *ngIf="locationForm.get('longitud').invalid">{{getErrorMessage("longitud")}}</mat-error>
+        </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="Ingrese la Dirección" formControlName="address" required>
             <mat-error *ngIf="locationForm.get('address').invalid">{{getErrorMessage("address")}}</mat-error>
@@ -38,7 +41,6 @@
       <table class="striped">
           <thead>
             <tr>
-                <th>Geolocalización</th>
                 <th>Dirección</th>
                 <th>Ciudad</th>
                 <th>Optiones</th>
@@ -46,7 +48,6 @@
           </thead>
           <tbody>
               <tr *ngFor="let location of locationList">  
-                  <td>{{location.geolocation}}</td>
                   <td>{{location.address}}</td>
                   <td>{{location.city}}</td>
               <td>
