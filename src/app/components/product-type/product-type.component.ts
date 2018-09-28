@@ -43,7 +43,7 @@ export class ProductTypeComponent implements OnInit {
     this.AddProductTypeForm.reset();
   }
 
-  delProductType(k: string ){
+  delProductType(k: ProductType ){
       this.manageBD.deleteListTpProduct(k);
   }
 

@@ -65,6 +65,7 @@ export class LoginService {
                   name: this.userDetails.displayName.toString(),
                   email: this.userDetails.email.toString(),
                   phone:'',
+                  enable:true
                 });
                 this.tpUser = 2;
               } else
@@ -102,8 +103,8 @@ export class LoginService {
             $key: this.userDetails.uid.toString(),
             name: this.userDetails.displayName.toString(),
             email: this.userDetails.email.toString(),
-            phone : ""
-
+            phone : "",
+            enable: true
           };
         }
 

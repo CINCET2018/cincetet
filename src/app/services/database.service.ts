@@ -205,7 +205,7 @@ export class DatabaseService {
     product.enable=false;
     this.updateListProduct(product);
   }
-  deleteListTpProduct(tpProduct:tpProduct){
+  deleteListTpProduct(tpProduct:ProductType){
     tpProduct.enable=false;
     this.updateListTpProduct(tpProduct);
   }
