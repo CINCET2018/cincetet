@@ -5,6 +5,7 @@ import { Customer } from '../models/Customer';
 import { Product } from '../models/Product';
 import { ProductType } from '../models/ProductType';
 import { Employee } from '../models/Employee';
+import { Location } from '../models/Location';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class DatabaseService {
   private urlTpProduct:string ='TpProduct';
   private urlEmployee:string ='Employee';
   private urlPendingUser:string ='PendingUser';
+  private urlLocation:string ='Location';
 
 //Declaracion Listas******************************************************************
   listPackaging: AngularFireList<any>;
@@ -26,7 +28,7 @@ export class DatabaseService {
   listTpProduct: AngularFireList<any>;
   listEmployee: AngularFireList<any>;
   listPendingUser: AngularFireList<any>;
-  
+  listLocation: AngularFireList<any>;  
   constructor(private firebase:AngularFireDatabase) { }
 
   //INICIALIZACION******************************************************************
@@ -48,6 +50,10 @@ export class DatabaseService {
   initListPendingUser(){
     this.listPendingUser = this.firebase.list(this.urlPendingUser);
   }
+  initListLocation(){
+    this.listLocation = this.firebase.list(this.urlLocation);
+  }
+
 
 
   //GET DATA******************************************************************
@@ -81,8 +87,10 @@ export class DatabaseService {
   getEmployee(user:string){
     return this.firebase.list(this.urlEmployee+'/'+user);
   } 
-
-
+  getLocations(){
+    this.initListLocation();
+    return this.listLocation;
+  }   
 
   //UPDATE******************************************************************
   updateListPackagings(packaging:Packaging){
@@ -129,6 +137,15 @@ export class DatabaseService {
       email:user.email
     });
   }
+  updateListLocation(location:Location){
+    this.initListLocation();
+    this.listLocation.update(location.$key,{
+      geolocation:location.geolocation, 
+      address:location.address, 
+      city:location.city,
+      branchType:location.branchType
+    });
+  } 
 
   //INSERT******************************************************************
   insertListPackaging(packaging:Packaging){
@@ -165,23 +182,32 @@ export class DatabaseService {
   insertListPendingUser(user:Employee){
     this.updateListPendingUser(user);
   }
+  insertListLocation(location:Location){
+    this.initListLocation();
+    this.listLocation.push({
+      geolocation:location.geolocation, 
+      address:location.address, 
+      city:location.city,
+      branchType:location.branchType
+    });
+  }
 
   //DELETE******************************************************************
-  deleteListPackaging($key: string){
-    this.initListPackaging();
-    this.listPackaging.remove($key);
+  deleteListPackaging(packaging:Packaging){
+    packaging.enable=false;
+    this.updateListPackagings(packaging);
   }
-  deleteListCustomer($key: string){
-    this.initListCustomer();
-    this.listCustomer.remove($key);
+  deleteListCustomer(customer:Customer){
+    customer.enable=false;
+    this.updateListCustomer(customer);
   }
-  deleteListProduct($key: string){
-    this.initListProduct();
-    this.listProduct.remove($key);
+  deleteListProduct(product:Product){
+    product.enable=false;
+    this.updateListProduct(product);
   }
-  deleteListTpProduct($key: string){
-    this.initListTpProduct();
-    this.listTpProduct.remove($key);
+  deleteListTpProduct(tpProduct:tpProduct){
+    tpProduct.enable=false;
+    this.updateListTpProduct(tpProduct);
   }
   deleteListEmployee($key: string){
     this.initListEmployee();
@@ -191,5 +217,9 @@ export class DatabaseService {
     this.initListPendingUser();
     this.listPendingUser.remove($key);
   }
+  deleteListLocation($key: string){
+    this.initListLocation();
+    this.listLocation.remove($key);
+  }  
 }
 

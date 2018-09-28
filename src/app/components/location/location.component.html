@@ -1,3 +1,64 @@
-<p>
-  location works!
-</p>
+<div id="div-content">
+  <mat-divider [inset]="true"></mat-divider>
+   <mat-card>
+    <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+      <div class="example-container">
+          <input matInput formControlName="$key" hidden="true">     
+        <mat-form-field>
+          <input matInput placeholder="Ingrese la Geolocalización" formControlName="geolocation" required>
+          <mat-error *ngIf="locationForm.get('geolocation').invalid">{{getErrorMessage("geolocation")}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Ingrese la Dirección" formControlName="address" required>
+            <mat-error *ngIf="locationForm.get('address').invalid">{{getErrorMessage("address")}}</mat-error>
+          </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Ingrese El Municipio_Corregimiento" formControlName="city" required>
+          <mat-error *ngIf="locationForm.get('city').invalid">{{getErrorMessage("city")}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Ingrese El Tipo_Negocio" formControlName="branchType" required>
+            <mat-error *ngIf="locationForm.get('branchType').invalid">{{getErrorMessage("branchType")}}</mat-error>
+          </mat-form-field>
+      </div>
+      <button class="btn waves-effect waves-light" [disabled]="!locationForm.valid" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+    </form>
+  </mat-card>
+</div>
+<!-- <div id="div-spinner" *ngIf="showDialog">
+  <app-dialog-wait-data id="spinner"></app-dialog-wait-data>
+</div> -->
+<div id="div-content">
+    <mat-divider [inset]="true"></mat-divider>
+     <mat-card>
+      <table class="striped">
+          <thead>
+            <tr>
+                <th>Geolocalización</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Optiones</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let location of locationList">  
+                  <td>{{location.geolocation}}</td>
+                  <td>{{location.address}}</td>
+                  <td>{{location.city}}</td>
+              <td>
+                <a class="btn waves-effect waves-light" type="submit" name="action" (click)="updateLocations(location)">
+                  <i class="material-icons right">create</i>
+                </a>
+                <a class="btn waves-effect waves-light" type="submit" name="action" (click)="deleteLocations(location.$key)">
+                    <i class="material-icons right">delete</i>
+                </a>             
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </mat-card>
+    </div>
