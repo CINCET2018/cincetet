@@ -6,6 +6,7 @@ import { Location } from '../../models/Location';
 import {MatSnackBar} from '@angular/material';
 import { log } from 'util';
 
+
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
@@ -16,7 +17,9 @@ export class LocationComponent implements OnInit {
   locationForm:FormGroup;
   showDialog: boolean;
   locationList : Location[];
-
+  latitud : number = 0;
+  longitud : number = 0;
+  markers : Location[];
 
   constructor(
     private locationService: DatabaseService,
@@ -41,12 +44,15 @@ export class LocationComponent implements OnInit {
     .subscribe(item => {
       console.log(item);
       this.locationList = [];
+      this.markers = [];
       item.forEach(element =>{
         let x = element.payload.toJSON();
         x["$key"] = element.key;
         this.locationList.push(x as Location);
+        this.markers.push(x as Location);
       });
-    });    
+    }); 
+     
   }
 
   initlocationForm(){
@@ -76,21 +82,26 @@ export class LocationComponent implements OnInit {
     
   onSubmit(){
     console.log("Funciona");
-    this.initlocationForm();
+    this.insertLocations();
   }
 
   insertLocations(){
+    console.log(this.locationForm);
     if(this.locationForm.value.$key == null){
       this.locationService.insertListLocation(this.locationForm.value as Location);
     }else{
       this.locationService.updateListLocation(this.locationForm.value as Location);
     }
+    this.latitud = 0;
+    this.longitud = 0;
+    this.markers = this.locationList;
     this.locationForm.reset();
   }
 
   deleteLocations($key: string){
     console.log('eliminar');
     this.locationService.deleteListLocation($key);
+    this.markers = this.locationList;
   }
   updateLocations(location: Location){
     console.log('actualizar');
@@ -101,6 +112,9 @@ export class LocationComponent implements OnInit {
       city:location.city,
       branchType:location.branchType
     });
+    let jhrjhrjh = String(location.geolocation).split(',');
+    this.latitud = parseFloat(jhrjhrjh[0]);
+    this.longitud = parseFloat(jhrjhrjh[1]);
   }
   //Mesajes
   openSnackBar(message: string, action: string) {
