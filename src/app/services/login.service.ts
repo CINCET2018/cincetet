@@ -46,7 +46,7 @@ export class LoginService {
   verifyUserLogged() {
     //rdevuelve un numero 
     //0: usuario dentro de los no aceptados
-    //1: usuario dentro de los aceptado 
+    //1: usuario dentro de los Aceptados 
     //2: usuario nuevo
     this.userData = null;
     this.tpUser = 2;
@@ -70,8 +70,10 @@ export class LoginService {
                   enable:true
                 });
                 this.tpUser = 2;
-              } else
+              } else if((item[0].payload.toJSON() as Employee).enable == true){
                 this.tpUser = 1;
+              }else
+                this.tpUser = 2;
             });
         }
         else
