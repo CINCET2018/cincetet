@@ -1,0 +1,12 @@
+fecha
+documento
+cliente
+Nombre establecimiento
+telefono
+nombre vendedor
+teléfono
+-----*------
+codigo producto - producto - cantidad - precio unitario - precio total
+total factura 
+
+
