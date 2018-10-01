@@ -17,11 +17,12 @@ export class CustomerComponent implements OnInit {
 
   AddCustomerFrom : FormGroup;
   dataSource = [];
-  displayedColumns: string[] = ['name', 'document', 'contactPerson', 'cellphone', 'location', 'update'];
+  displayedColumns: string[] = ['name', 'document', 'contactPerson', 'cellphone', 'location','update'];
   customersList=[];
   mostrarDatos: boolean;
   updateEnable=false;
   selectedElement:Customer;
+  keyCustoemers = [];
 
   constructor(private manageBD : DatabaseService, public dialog: MatDialog) { }
 
@@ -113,6 +114,7 @@ export class CustomerComponent implements OnInit {
 
     this.getCustomerList();
     this.updateEnable=false;
+    this.getMyCustomer();
 
   }
 
@@ -125,6 +127,29 @@ export class CustomerComponent implements OnInit {
       contactPerson: element.contactPerson,
       cellphone: element.cellphone,
       location: element.location
+    });
+  }
+
+  getCustomer(key: string){
+    let retorno="No encontrado";
+    this.keyCustoemers.forEach(element => {
+      // console.log(key+"***"+element.$key);
+      if(element.$key==key){
+        // console.log("igual: ");
+        retorno = element.name;
+      }
+    });
+    return retorno;
+  }
+  getMyCustomer(){
+    this.manageBD.getListCustomer().snapshotChanges().subscribe(item => {
+      this.keyCustoemers = Array<Customer>();
+      item.forEach(element => {
+        let x = element.payload.toJSON();
+        x['$key'] = element.key;
+        this.keyCustoemers.push(x as Customer)
+        // console.log(x);
+      })
     });
   }
 }

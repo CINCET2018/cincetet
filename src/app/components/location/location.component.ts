@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 
 import {NgForm, FormGroup, FormControl, Validators} from '@angular/forms';
 import { Location } from '../../models/Location';
 import {MatSnackBar} from '@angular/material';
 import { log } from 'util';
+import { Customer } from '../../models/Customer';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class LocationComponent implements OnInit {
   longitud : number = 0;
   markers : Location[];
   keyCustomer: string = '1';
+
+  @Input() keyCustomers: Customer[];
 
   constructor(
     private locationService: DatabaseService,
