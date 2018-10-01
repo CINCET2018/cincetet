@@ -10,8 +10,11 @@ import { Packaging } from '../../models/Packaging';
 })
 export class PackagingComponent implements OnInit {
   AddPackagingForm : FormGroup;
-  displayedColumns: string[] = ['description','Eliminar'];
+  displayedColumns: string[] = ['description','Eliminar','update'];
   dataSource = [];
+  updateEnable=false;
+  selectedElement:Packaging;
+
   constructor(private manageBD: DatabaseService) { }
   
 
@@ -45,6 +48,15 @@ export class PackagingComponent implements OnInit {
     objeto.enable=true;
     this.manageBD.insertListPackaging(objeto);
     this.AddPackagingForm.reset();
+    this.updateEnable=false;
+  }
+  updatePackaging(){
+    let objeto =this.selectedElement;
+    objeto.description=this.AddPackagingForm.get('typePackaging').value;
+    objeto.enable=true;
+    this.manageBD.updateListPackagings(objeto);
+    this.AddPackagingForm.reset();
+    this.updateEnable=false;
   }
 
   delPackaging(k: Packaging ){
@@ -56,4 +68,19 @@ export class PackagingComponent implements OnInit {
     return this.AddPackagingForm.get(control).hasError('required') ? 'Debe ingresar el tipo de embalaje' :'';
   }
 
+  startModifyBranchType(element:Packaging){
+    this.updateEnable=true;
+    this.selectedElement=element;
+    this.AddPackagingForm.setValue({
+      typePackaging: element.description
+    })
+  }
+
+  selectOperation(){
+    if (this.updateEnable) {
+      this.updatePackaging();
+    } else {
+      this.addPackaging();
+    }
+  }
 }
