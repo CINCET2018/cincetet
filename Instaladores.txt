@@ -1,0 +1,5 @@
+npm install @agm/core --save
+npm i @angular/cdk
+npm install --save @angular/material @angular/cdk @angular/animations
+npm install --save hammerjs
+npm install firebase @angular/fire --save

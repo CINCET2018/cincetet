@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
 import { Packaging } from '../models/Packaging';
 import { Customer } from '../models/Customer';
 import { Product } from '../models/Product';
