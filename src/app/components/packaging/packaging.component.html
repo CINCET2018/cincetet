@@ -1,10 +1,11 @@
 <div class="divaddPackaging">
-  <form (ngSubmit)="addPackaging()" [formGroup]="AddPackagingForm">
+  <form (ngSubmit)="selectOperation()" [formGroup]="AddPackagingForm">
     <mat-form-field>
       <input matInput placeholder="Tipo de Embalaje" formControlName="typePackaging" required>
       <mat-error *ngIf="AddPackagingForm.get('typePackaging').invalid">{{getErrorMessage("typePackaging")}}</mat-error>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary" [disabled]="!AddPackagingForm.valid">Agregar</button>
+    <button *ngIf="!updateEnable" type="submit" mat-raised-button color="primary" [disabled]="!AddPackagingForm.valid"> Agregar </button>
+    <button *ngIf="updateEnable" type="submit" mat-raised-button color="accent" [disabled]="!AddPackagingForm.valid"> Modificar </button>
   </form>
   <div *ngIf="dataSource.length>0">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -24,6 +25,15 @@
             <td mat-cell *matCellDef="let element"> 
                 <button mat-icon-button color="warn" (click)="delPackaging(element)">
                     <mat-icon class="material-icons md-40">delete</mat-icon>
+                </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="update">
+            <th mat-header-cell *matHeaderCellDef>   Modificar   </th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-icon-button color="warn" (click)="startModifyBranchType(element)">
+                    <mat-icon class="material-icons md-40">  update  </mat-icon>
                 </button>
             </td>
           </ng-container>
