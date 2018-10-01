@@ -11,8 +11,11 @@ import { ProductType } from '../../models/ProductType'
 export class ProductTypeComponent implements OnInit {
 
   AddProductTypeForm : FormGroup;
-  displayedColumns: string[] = ['description','Eliminar'];
+  displayedColumns: string[] = ['description','Modificar','Eliminar'];
   dataSource = [];
+  updateEnable = true;
+  selectedElement : ProductType;
+
   constructor(private manageBD: DatabaseService) { }
   
 
@@ -30,8 +33,9 @@ export class ProductTypeComponent implements OnInit {
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
-        this.dataSource.push(x as ProductType)
-        console.log(x);
+        if((x as ProductType).enable){
+          this.dataSource.push(x as ProductType)
+        }
       })
     });
   }
@@ -50,6 +54,31 @@ export class ProductTypeComponent implements OnInit {
   getErrorMessage(control:string) {
     if(control=='typeProduct')
     return this.AddProductTypeForm.get(control).hasError('required') ? 'Debe ingresar el tipo de producto' :'';
+  }
+
+  startModifyProductType(element:ProductType){
+    this.updateEnable = true;
+    this.selectedElement = element;
+    this.AddProductTypeForm.setValue({
+      typeProduct: element.description
+    })
+  }
+
+  selectOperation(){
+    if (this.updateEnable) {
+      this.updateProductType();
+    } else {
+      this.addProductType();
+    }
+  }
+
+  updateProductType(){
+    let objeto = this.selectedElement;
+    objeto.description = this.AddProductTypeForm.get('typeProduct').value;
+    objeto.enable = true;
+    this.manageBD.updateListPackagings(objeto);
+    this.AddProductTypeForm.reset();
+    this.updateEnable = false;
   }
 
 }
