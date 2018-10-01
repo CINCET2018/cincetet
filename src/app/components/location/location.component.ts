@@ -6,7 +6,7 @@ import { Location } from '../../models/Location';
 import {MatSnackBar} from '@angular/material';
 import { log } from 'util';
 
-
+/*  */
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
