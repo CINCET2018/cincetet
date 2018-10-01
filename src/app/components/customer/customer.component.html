@@ -1,6 +1,6 @@
 <div class="divaddCustomer">
     <mat-card> 
-    <form (ngSubmit)="addCustomer()" [formGroup]="AddCustomerFrom">
+    <form (ngSubmit)="selectOperation()" [formGroup]="AddCustomerFrom">
       <mat-form-field>
         <input matInput placeholder="Nombre" formControlName="name" required>
         <mat-error *ngIf="AddCustomerFrom.get('name').invalid">{{getErrorMessage("name")}}</mat-error>
@@ -21,16 +21,8 @@
           <mat-error *ngIf="AddCustomerFrom.get('cellphone').invalid">{{getErrorMessage("cellphone")}}</mat-error>
         </mat-form-field>
 
-      <mat-form-field>
-          <input matInput placeholder="Ubicacion" formControlName="location" required>
-          <mat-error *ngIf="AddCustomerFrom.get('location').invalid">{{getErrorMessage("location")}}</mat-error>
-        </mat-form-field>
-
-      <button type="submit" mat-raised-button color="primary" [disabled]="!AddCustomerFrom.valid">Agregar</button>
-        <div *ngIf="mostrarDatos">
-      <button type="submit" mat-raised-button color="accent" aria-hidden="true">Actualizar</button>
-    </div>
-      <!-- <button (click)="activarActualizar()" mat-icon-button id="actualizar">prueba</button> -->
+      <button *ngIf="!updateEnable" type="submit" mat-raised-button color="primary" [disabled]="!AddCustomerFrom.valid">Agregar</button>
+      <button *ngIf="updateEnable" type="submit" mat-raised-button color="accent" [disabled]="!AddCustomerFrom.valid"> Modificar </button>
           
 
     </form>
@@ -66,25 +58,30 @@
                 </ng-container>
   
                 <ng-container matColumnDef="location">
-                    <th mat-header-cell *matHeaderCellDef> Ubicacion </th>
-                    <td mat-cell *matCellDef="let element"> {{element.location}} </td>
-                  </ng-container>
+                  <th mat-header-cell *matHeaderCellDef>Ubicacion</th>
+                  <td mat-cell *matCellDef="let element"> 
+                      <button mat-icon-button color="warn" (click)="openDialog()">
+                          <mat-icon class="material-icons md-40">  location_on  </mat-icon>
+                      </button>
+                  </td>
+                </ng-container>
 
                   <ng-container matColumnDef="update">
-                      <th mat-header-cell *matHeaderCellDef> Modificar </th>
-                      <td mat-cell *matCellDef="let element"> <button (click)="startModifyCustomer(element)" mat-icon-button id="actualizar">
-                        <mat-icon class="material-icons md-40">update</mat-icon>
-                      </button></td>
-                    </ng-container>  
-
+                    <th mat-header-cell *matHeaderCellDef>   Modificar   </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <button mat-icon-button color="warn" (click)="startModifyCustomer(element)">
+                            <mat-icon class="material-icons md-40">  update  </mat-icon>
+                        </button>
+                    </td>
+                  </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
           </table>
         </mat-card>
     </div>
+    <!-- <app-location></app-location> -->
 
-  <!-- <button (click)="updateCustomer()">Prueba</button> -->
     
   
   

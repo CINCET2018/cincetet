@@ -3,13 +3,16 @@ import { NgForm, FormGroup,FormControl,Validators } from '@angular/forms';
 import { Customer } from '../../models/Customer';
 import { DatabaseService } from '../../services/database.service';
 import { element } from '@angular/core/src/render3/instructions';
-
+import { MatDialog } from '@angular/material';
+import { TableLocationComponent } from '../table-location/table-location.component';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
+
+
 export class CustomerComponent implements OnInit {
 
   AddCustomerFrom : FormGroup;
@@ -20,7 +23,15 @@ export class CustomerComponent implements OnInit {
   updateEnable=false;
   selectedElement:Customer;
 
-  constructor(private manageBD : DatabaseService) { }
+  constructor(private manageBD : DatabaseService, public dialog: MatDialog) { }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(TableLocationComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   addCustomer(){
     
@@ -69,6 +80,23 @@ export class CustomerComponent implements OnInit {
       });
     }
 
+    modifyCustomer(){
+      let objeto =this.selectedElement;
+      objeto.name=this.AddCustomerFrom.get('name').value;
+      objeto.enable=true;
+      this.manageBD.updateListCustomer(objeto);
+      this.AddCustomerFrom.reset();
+      this.updateEnable=false;
+    }
+
+    selectOperation(){
+      if (this.updateEnable) {
+        this.modifyCustomer();
+      } else {
+        this.addCustomer();
+      }
+    }
+
   ngOnInit() {
     this.AddCustomerFrom = new FormGroup({
       name: new FormControl('',[
@@ -84,12 +112,10 @@ export class CustomerComponent implements OnInit {
     });
 
     this.getCustomerList();
+    this.updateEnable=false;
 
   }
 
-  activarActualizar() : void{
-    this.mostrarDatos = true;
-  }
   startModifyCustomer(element:Customer){
     this.updateEnable=true;
     this.selectedElement=element;
@@ -100,7 +126,5 @@ export class CustomerComponent implements OnInit {
       cellphone: element.cellphone,
       location: element.location
     });
-    this.activarActualizar();
   }
-
 }
