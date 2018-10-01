@@ -20,6 +20,7 @@ export class LocationComponent implements OnInit {
   latitud : number = 0;
   longitud : number = 0;
   markers : Location[];
+  keyCustomer: string = '1';
 
   constructor(
     private locationService: DatabaseService,
@@ -41,7 +42,7 @@ export class LocationComponent implements OnInit {
         Validators.required])
     });  
     
-    let listLocations =this.locationService.getLocations()
+    let listLocations =this.locationService.getLocations(this.keyCustomer)
      .snapshotChanges()
     .subscribe(item => {
       console.log(item);
@@ -92,9 +93,9 @@ export class LocationComponent implements OnInit {
   insertLocations(){
     console.log(this.locationForm);
     if(this.locationForm.value.$key == null){
-      this.locationService.insertListLocation(this.locationForm.value as Location);
+      this.locationService.insertListLocation(this.keyCustomer, this.locationForm.value as Location);
     }else{
-      this.locationService.updateListLocation(this.locationForm.value as Location);
+      this.locationService.updateListLocation(this.keyCustomer, this.locationForm.value as Location);
     }
     this.latitud = 0;
     this.longitud = 0;
@@ -104,7 +105,7 @@ export class LocationComponent implements OnInit {
 
   deleteLocations($key: string){
     console.log('eliminar');
-    this.locationService.deleteListLocation($key);
+    this.locationService.deleteListLocation(this.keyCustomer, $key);
     this.markers = this.locationList;
   }
   updateLocations(location: Location){
