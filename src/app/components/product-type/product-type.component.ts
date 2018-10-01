@@ -13,7 +13,7 @@ export class ProductTypeComponent implements OnInit {
   AddProductTypeForm : FormGroup;
   displayedColumns: string[] = ['description','Modificar','Eliminar'];
   dataSource = [];
-  updateEnable = true;
+  updateEnable = false;
   selectedElement : ProductType;
 
   constructor(private manageBD: DatabaseService) { }
@@ -25,6 +25,7 @@ export class ProductTypeComponent implements OnInit {
         Validators.required])
     });
     this.getProductTypeList();
+    this.updateEnable = false;
   }
 
   getProductTypeList(){
@@ -45,6 +46,7 @@ export class ProductTypeComponent implements OnInit {
     objeto.enable=true;
     this.manageBD.insertListTpProduct(objeto);
     this.AddProductTypeForm.reset();
+    this.updateEnable = false;
   }
 
   delProductType(k: ProductType ){
