@@ -187,7 +187,7 @@ export class DatabaseService {
   }
   insertListTpProduct(tpProduct:ProductType){
     this.initListTpProduct();
-    this.listTpProduct.push({description:tpProduct.description});
+    this.listTpProduct.push({description:tpProduct.description, enable: tpProduct.enable});
   }
   insertListEmployee(employee:Employee){
     this.updateListEmployee(employee);
