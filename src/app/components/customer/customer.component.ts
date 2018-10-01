@@ -3,24 +3,36 @@ import { NgForm, FormGroup,FormControl,Validators } from '@angular/forms';
 import { Customer } from '../../models/Customer';
 import { DatabaseService } from '../../services/database.service';
 import { element } from '@angular/core/src/render3/instructions';
-
+import { MatDialog } from '@angular/material';
+import { TableLocationComponent } from '../table-location/table-location.component';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
+
+
 export class CustomerComponent implements OnInit {
 
   AddCustomerFrom : FormGroup;
   dataSource = [];
-  displayedColumns: string[] = ['name', 'document', 'contactPerson', 'cellphone', 'location', 'update'];
+  displayedColumns: string[] = ['name', 'document', 'contactPerson', 'cellphone', 'location','update'];
   customersList=[];
   mostrarDatos: boolean;
   updateEnable=false;
   selectedElement:Customer;
+  keyCustoemers = [];
 
-  constructor(private manageBD : DatabaseService) { }
+  constructor(private manageBD : DatabaseService, public dialog: MatDialog) { }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(TableLocationComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   addCustomer(){
     
@@ -69,6 +81,23 @@ export class CustomerComponent implements OnInit {
       });
     }
 
+    modifyCustomer(){
+      let objeto =this.selectedElement;
+      objeto.name=this.AddCustomerFrom.get('name').value;
+      objeto.enable=true;
+      this.manageBD.updateListCustomer(objeto);
+      this.AddCustomerFrom.reset();
+      this.updateEnable=false;
+    }
+
+    selectOperation(){
+      if (this.updateEnable) {
+        this.modifyCustomer();
+      } else {
+        this.addCustomer();
+      }
+    }
+
   ngOnInit() {
     this.AddCustomerFrom = new FormGroup({
       name: new FormControl('',[
@@ -84,12 +113,11 @@ export class CustomerComponent implements OnInit {
     });
 
     this.getCustomerList();
+    this.updateEnable=false;
+    this.getMyCustomer();
 
   }
 
-  activarActualizar() : void{
-    this.mostrarDatos = true;
-  }
   startModifyCustomer(element:Customer){
     this.updateEnable=true;
     this.selectedElement=element;
@@ -100,7 +128,28 @@ export class CustomerComponent implements OnInit {
       cellphone: element.cellphone,
       location: element.location
     });
-    this.activarActualizar();
   }
 
+  getCustomer(key: string){
+    let retorno="No encontrado";
+    this.keyCustoemers.forEach(element => {
+      // console.log(key+"***"+element.$key);
+      if(element.$key==key){
+        // console.log("igual: ");
+        retorno = element.name;
+      }
+    });
+    return retorno;
+  }
+  getMyCustomer(){
+    this.manageBD.getListCustomer().snapshotChanges().subscribe(item => {
+      this.keyCustoemers = Array<Customer>();
+      item.forEach(element => {
+        let x = element.payload.toJSON();
+        x['$key'] = element.key;
+        this.keyCustoemers.push(x as Customer)
+        // console.log(x);
+      })
+    });
+  }
 }
