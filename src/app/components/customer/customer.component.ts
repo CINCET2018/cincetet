@@ -4,7 +4,7 @@ import { Customer } from '../../models/Customer';
 import { DatabaseService } from '../../services/database.service';
 import { element } from '@angular/core/src/render3/instructions';
 import { MatDialog } from '@angular/material';
-import { TableLocationComponent } from '../table-location/table-location.component';
+import { LocationComponent } from '../location/location.component';
 
 @Component({
   selector: 'app-customer',
@@ -22,16 +22,17 @@ export class CustomerComponent implements OnInit {
   mostrarDatos: boolean;
   updateEnable=false;
   selectedElement:Customer;
-  keyCustoemers = [];
 
   constructor(private manageBD : DatabaseService, public dialog: MatDialog) { }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(TableLocationComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
+  openDialog(element:Customer) {
+    const dialogRef = this.dialog.open(LocationComponent, 
+       {
+        data: { name: element.$key }
+      });
+/*     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-    });
+    }); */
   }
 
   addCustomer(){
@@ -114,7 +115,7 @@ export class CustomerComponent implements OnInit {
 
     this.getCustomerList();
     this.updateEnable=false;
-    this.getMyCustomer();
+    //this.getMyCustomer();
 
   }
 
@@ -127,29 +128,6 @@ export class CustomerComponent implements OnInit {
       contactPerson: element.contactPerson,
       cellphone: element.cellphone,
       location: element.location
-    });
-  }
-
-  getCustomer(key: string){
-    let retorno="No encontrado";
-    this.keyCustoemers.forEach(element => {
-      // console.log(key+"***"+element.$key);
-      if(element.$key==key){
-        // console.log("igual: ");
-        retorno = element.name;
-      }
-    });
-    return retorno;
-  }
-  getMyCustomer(){
-    this.manageBD.getListCustomer().snapshotChanges().subscribe(item => {
-      this.keyCustoemers = Array<Customer>();
-      item.forEach(element => {
-        let x = element.payload.toJSON();
-        x['$key'] = element.key;
-        this.keyCustoemers.push(x as Customer)
-        // console.log(x);
-      })
     });
   }
 }

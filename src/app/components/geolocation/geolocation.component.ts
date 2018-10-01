@@ -19,10 +19,15 @@ export class GeolocationComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.longitud);
+    console.log(this.latitud);
+    console.log(this.markers);
   }
 
   mapClicked(evt){
     console.log(evt);
+    console.log(this.longitud);
+    console.log(this.latitud);    
     console.log(this.markers);
   }
 

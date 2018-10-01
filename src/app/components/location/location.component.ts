@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 
 import {NgForm, FormGroup, FormControl, Validators} from '@angular/forms';
@@ -6,15 +6,15 @@ import { Location } from '../../models/Location';
 import {MatSnackBar} from '@angular/material';
 import { log } from 'util';
 import { Customer } from '../../models/Customer';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
-/*  */
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent implements OnInit {
-
+  
   locationForm:FormGroup;
   showDialog: boolean;
   locationList : Location[];
@@ -23,14 +23,16 @@ export class LocationComponent implements OnInit {
   markers : Location[];
   keyCustomer: string = '1';
 
-  @Input() keyCustomers: Customer[];
+  @Input() keyCustoemers: string;
 
   constructor(
     private locationService: DatabaseService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
+    this.keyCustomer = this.data.name;
      this.locationForm = new FormGroup({
       $key:new FormControl(),
       latitud: new FormControl('',[
@@ -57,7 +59,8 @@ export class LocationComponent implements OnInit {
         this.locationList.push(x as Location);
         this.markers.push(x as Location);
       });
-    });   
+    });  
+    console.log(this.keyCustoemers); 
   }
 
   initlocationForm(){

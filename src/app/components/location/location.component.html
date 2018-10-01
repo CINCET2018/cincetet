@@ -1,5 +1,4 @@
 <div id="div-content">
-  <mat-divider [inset]="true"></mat-divider>
    <mat-card>
     <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
       <div class="example-container">
@@ -36,7 +35,6 @@
   <app-dialog-wait-data id="spinner"></app-dialog-wait-data>
 </div> -->
 <div id="div-content">
-    <mat-divider [inset]="true"></mat-divider>
      <mat-card>
       <table class="striped">
           <thead>
@@ -65,6 +63,5 @@
     </div>    
     <div>
       <app-geolocation [latitud]="latitud" [longitud]="longitud" [markers]="markers"></app-geolocation>
-      <!-- <app-customer [keyCustomer]="keyCustomer"></app-customer> -->
     </div>
     
