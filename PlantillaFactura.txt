@@ -1,12 +1,14 @@
 fecha
 documento
-cliente
 Nombre establecimiento
+direccion
 telefono
 nombre vendedor
-teléfono
+telefono
 -----*------
 codigo producto - producto - cantidad - precio unitario - precio total
-total factura 
+subtotal
+IVA
+total factura
 
 
