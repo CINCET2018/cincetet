@@ -54,8 +54,8 @@ export class DatabaseService {
   initListPendingUser(){
     this.listPendingUser = this.firebase.list(this.urlPendingUser);
   }
-  initListLocation(){
-    this.listLocation = this.firebase.list(this.urlLocation);
+  initListLocation(keyCustomer:string){
+    this.listLocation = this.firebase.list(this.urlLocation+"/"+keyCustomer);
   }
   initListTpBranch(){
     this.listTpBranch = this.firebase.list(this.urlTpBranch);
@@ -94,8 +94,8 @@ export class DatabaseService {
   getEmployee(user:string){
     return this.firebase.list(this.urlEmployee+'/'+user);
   } 
-  getLocations(){
-    this.initListLocation();
+  getLocations(keyCustomer:string){
+    this.initListLocation(keyCustomer);
     return this.listLocation;
   }   
   getListTpBranch(){
@@ -151,8 +151,8 @@ export class DatabaseService {
       email:user.email
     });
   }
-  updateListLocation(location:Location){
-    this.initListLocation();
+  updateListLocation(keyCustomer:string,location:Location){
+    this.initListLocation(keyCustomer);
     this.listLocation.update(location.$key,{
       latitud:location.latitud, 
       longitud:location.longitud, 
@@ -195,8 +195,8 @@ export class DatabaseService {
   insertListPendingUser(user:Employee){
     this.updateListPendingUser(user);
   }
-  insertListLocation(location:Location){
-    this.initListLocation();
+  insertListLocation(keyCustomer:string, location:Location){
+    this.initListLocation(keyCustomer);
     this.listLocation.push({
       latitud:location.latitud, 
       longitud:location.longitud, 
@@ -235,8 +235,8 @@ export class DatabaseService {
     this.initListPendingUser();
     this.listPendingUser.remove($key);
   }
-  deleteListLocation($key: string){
-    this.initListLocation();
+  deleteListLocation(keyCustomer:string, $key: string){
+    this.initListLocation(keyCustomer);
     this.listLocation.remove($key);
   }  
   deleteListTpBranch(tpBranch:BranchType){
