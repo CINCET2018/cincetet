@@ -14,10 +14,11 @@ import { Packaging } from '../../models/Packaging';
 export class ProductComponent implements OnInit {
 
   productForm : FormGroup;
-  displayedColumns: string[] = ['key','name','packaging','productType','unitPrice','retailPrice','modify','delete'];
+  displayedColumns: string[] = ['$key','name','productType','packaging','unitPrice','retailPrice','modify','delete'];
   dataSource = [];
-  tpProductList = [];
-  tpPackaging = [];
+  tpProductList = Array<ProductType>();
+  tpPackaging = Array<Packaging>();
+  updateEnable = false;
 
 
   constructor(private dbService : DatabaseService) { }
@@ -37,6 +38,8 @@ export class ProductComponent implements OnInit {
       retailPrice: new FormControl(Number,[
         Validators.required])
     });
+
+    this.updateEnable = false;
 
     this.initProductForm();
     this.getProduct();
@@ -71,9 +74,12 @@ export class ProductComponent implements OnInit {
             '';
   }
 
-  onSubmit(){
-    console.log("Funciona");
-    this.addProduct();
+  selectOperation(){
+    if (this.updateEnable) {
+      this.updateProduct();
+    } else {
+      this.addProduct();
+    }
   }
 
   getProduct(){
@@ -82,8 +88,9 @@ export class ProductComponent implements OnInit {
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
-        this.dataSource.push(x as Product);
-        console.log(this.dataSource.length);
+        if((x as Product).enable){
+          this.dataSource.push(x as Product);
+        }
       })
     });
   }
@@ -94,7 +101,7 @@ export class ProductComponent implements OnInit {
     newProduct.enable = true;
     console.log(newProduct);
     this.dbService.insertListProduct(newProduct);
-    this.initProductForm();
+    this.productForm.reset();
   }
 
   updateProduct(){
@@ -102,21 +109,19 @@ export class ProductComponent implements OnInit {
     newProduct = this.productForm.value as Product;
     newProduct.enable = true;
     this.dbService.updateListProduct(newProduct);
-    this.initProductForm();
+    this.productForm.reset();
   }
   
-  modifyProduct(key : string){
-    let modProduct = new Product();
-    modProduct = this.dataSource[key];
+  modifyProduct(element : Product){
+    this.updateEnable = true;
     this.productForm.setValue({
-      key : modProduct.$key,
-      name : modProduct.name,
-      packaging : modProduct.packaging,
-      productType : modProduct.productType,
-      unitPrice : modProduct.unitPrice,
-      retailPrice : modProduct.retailPrice,
+      $key : element.$key,
+      name : element.name,
+      packaging : element.packaging,
+      productType : element.productType,
+      unitPrice : element.unitPrice,
+      retailPrice : element.retailPrice,
     });
-    console.log(modProduct);
   }
 
   deleteProduct(key : Product){
@@ -125,32 +130,40 @@ export class ProductComponent implements OnInit {
 
   loadProductType(){
     this.dbService.getListTpProduct().snapshotChanges().subscribe(item => {
-      this.tpProductList = Array<ProductType>();
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
-        this.tpProductList.push(x as ProductType);
+        if((x as ProductType).enable){
+          this.tpProductList.push(x as ProductType);
+        }
       })
     });
   }
 
   loadPackaging(){
     this.dbService.getListPackaging().snapshotChanges().subscribe(item => {
-      this.tpPackaging = Array<Packaging>();
       item.forEach(element => {
         let x = element.payload.toJSON();
         x['$key'] = element.key;
-        this.tpPackaging.push(x as Packaging);
+        if((x as Packaging).enable){
+          this.tpPackaging.push(x as Packaging);
+        }
       })
     });
   }
 
   getProductType(key : string){
-    return this.tpProductList[key];
+    if (this.tpProductList == null)
+      return '';
+    var id = this.tpProductList.findIndex(x => x.$key == key);
+    return this.tpProductList[id] != null && this.tpProductList[id].enable ? this.tpProductList[id].description : 'No registrado';
   }
 
   getPackaging(key : string){
-    return this.tpPackaging[key];
+    if (this.tpPackaging == null)
+      return '';
+    var id = this.tpPackaging.findIndex(x => x.$key == key);
+    return this.tpPackaging[id] != null && this.tpPackaging[id].enable ? this.tpPackaging[id].description : 'No registrado';
   }
 
 }
