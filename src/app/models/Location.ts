@@ -1,6 +1,7 @@
 export class Location{
     $key:string;
-    geolocation:string;
+    latitud:string;
+    longitud:string;
     address:string;
     city:string;
     branchType:string;

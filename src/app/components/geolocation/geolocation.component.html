@@ -1,3 +1,20 @@
-<p>
-  geolocation works!
-</p>
+    <agm-map *ngIf="latitud"
+      [latitude]="latitud"
+      [longitude]="longitud"
+      [zoom]="13"
+      (mapClick)="mapClicked($event)">
+      <agm-marker 
+          *ngFor="let m of markers; let i = index"
+          [latitude]="m.latitud"
+          [longitude]="m.longitud"
+          (dragEnd)="markerDragEnd(m, $event)">
+        <agm-info-window>
+          <table>
+              <tr>{{m.geolocation}}</tr>
+              <tr>{{m.address}}</tr>
+              <tr>{{m.city}}</tr>
+              <tr>{{m.branchType}}</tr>
+          </table>
+        </agm-info-window>
+      </agm-marker>  
+    </agm-map>

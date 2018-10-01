@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Location } from '../../models/Location';
 
 @Component({
   selector: 'app-geolocation',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeolocationComponent implements OnInit {
 
+  lat: string = '';
+  lng: string = '';
+
+  //coordenadas
+  @Input() latitud: number;
+  @Input() longitud: number;
+  @Input() markers: Location[];
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  mapClicked(evt){
+    console.log(evt);
+    console.log(this.markers);
   }
 
 }

@@ -62,7 +62,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -124,7 +124,10 @@ import { AppRoutingModule } from './app-routing.module';
     MatTooltipModule,
     MatTreeModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAk5USP5Hf8HZgux4_EE6zcg_Hkkb3bxnA' //Google API key for maps
+    })    
   ],
   entryComponents: [CustomerComponent],
   providers: [],

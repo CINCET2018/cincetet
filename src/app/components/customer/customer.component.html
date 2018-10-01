@@ -27,8 +27,11 @@
         </mat-form-field>
 
       <button type="submit" mat-raised-button color="primary" [disabled]="!AddCustomerFrom.valid">Agregar</button>
-
-      <button mat-raised-button color="primary" (click)="updateCustomer()">Actualizar</button>
+        <div *ngIf="mostrarDatos">
+      <button type="submit" mat-raised-button color="accent" aria-hidden="true">Actualizar</button>
+    </div>
+      <!-- <button (click)="activarActualizar()" mat-icon-button id="actualizar">prueba</button> -->
+          
 
     </form>
   </mat-card>
@@ -67,8 +70,16 @@
                     <td mat-cell *matCellDef="let element"> {{element.location}} </td>
                   </ng-container>
 
+                  <ng-container matColumnDef="update">
+                      <th mat-header-cell *matHeaderCellDef> Modificar </th>
+                      <td mat-cell *matCellDef="let element"> <button (click)="startModifyCustomer(element)" mat-icon-button id="actualizar">
+                        <mat-icon class="material-icons md-40">update</mat-icon>
+                      </button></td>
+                    </ng-container>  
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
           </table>
         </mat-card>
     </div>
