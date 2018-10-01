@@ -51,16 +51,17 @@ export class LoginService {
     this.userData = null;
     this.tpUser = 2;
     if (this.userDetails.email!="cincet2018@gmail.com"){
-
     this.subscrition1 = this.dbService.getPendingUser(this.userDetails.uid.toString())
       .snapshotChanges()
       .subscribe(item => {
-        console.log(item.length);
+        //console.log(item.length);
+        
         if (item.length == 0) {
           this.subscrition2 = this.dbService.getEmployee(this.userDetails.uid.toString())
             .snapshotChanges()
             .subscribe(item => {
-              console.log(item.length);
+              
+              //console.log(item[1].payload.toJSON() as Boolean);
               if (item.length == 0) {
                 this.dbService.insertListPendingUser({
                   $key: this.userDetails.uid.toString(),
@@ -70,7 +71,7 @@ export class LoginService {
                   enable:true
                 });
                 this.tpUser = 2;
-              } else if((item[0].payload.toJSON() as Employee).enable == true){
+              } else if((item[1].payload.toJSON() as Boolean)== true){
                 this.tpUser = 1;
               }else
                 this.tpUser = 2;
@@ -83,7 +84,6 @@ export class LoginService {
     else{
       this.tpUser=1;
     }
-
       
 
 
