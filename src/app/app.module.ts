@@ -63,6 +63,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AgmCoreModule } from '@agm/core';
+import { TableLocationComponent } from './components/table-location/table-location.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { AgmCoreModule } from '@agm/core';
     GeolocationComponent,
     BranchTypeComponent,
     SaleComponent,    
-    EmployeeComponent, LoginComponent, NavigationComponent
+    EmployeeComponent, LoginComponent, NavigationComponent, TableLocationComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +130,7 @@ import { AgmCoreModule } from '@agm/core';
       apiKey: 'AIzaSyAk5USP5Hf8HZgux4_EE6zcg_Hkkb3bxnA' //Google API key for maps
     })    
   ],
-  entryComponents: [CustomerComponent],
+  entryComponents: [CustomerComponent, TableLocationComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
