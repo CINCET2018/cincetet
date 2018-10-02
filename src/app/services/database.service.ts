@@ -114,8 +114,7 @@ export class DatabaseService {
       name:customer.name, 
       document:customer.document, 
       contactPerson:customer.contactPerson, 
-      cellphone:customer.cellphone, 
-      location:customer.location,  
+      cellphone:customer.cellphone,   
       enable: customer.enable
     });
   }
@@ -178,7 +177,6 @@ export class DatabaseService {
       document:customer.document, 
       contactPerson:customer.contactPerson, 
       cellphone:customer.cellphone, 
-      location:customer.location, 
       enable: customer.enable
     });
   }

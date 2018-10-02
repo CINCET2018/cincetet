@@ -42,7 +42,6 @@ export class CustomerComponent implements OnInit {
       objeto.document=this.AddCustomerFrom.get('document').value;
       objeto.contactPerson=this.AddCustomerFrom.get('contactPerson').value;
       objeto.cellphone=this.AddCustomerFrom.get('cellphone').value;
-      objeto.location=this.AddCustomerFrom.get('location').value;
       objeto.enable=true;
       this.manageBD.insertListCustomer(objeto);
       this.AddCustomerFrom.reset();
@@ -64,10 +63,6 @@ export class CustomerComponent implements OnInit {
     if(control = 'cellphone')
       return this.AddCustomerFrom.get(control).hasError('required') ? 'Debe ingresar numero de telefono' :
             '';
-
-    if(control = 'location')  
-    return this.AddCustomerFrom.get(control).hasError('required') ? 'Debe ingresar ubicacion' :
-          '';
     }
 
     getCustomerList(){
@@ -109,13 +104,10 @@ export class CustomerComponent implements OnInit {
         Validators.required]),
       cellphone: new FormControl('',[
         Validators.required]),
-       location: new FormControl('',[
-        Validators.required])
     });
 
     this.getCustomerList();
     this.updateEnable=false;
-    //this.getMyCustomer();
 
   }
 
@@ -127,7 +119,6 @@ export class CustomerComponent implements OnInit {
       document : element.document,
       contactPerson: element.contactPerson,
       cellphone: element.cellphone,
-      location: element.location
     });
   }
 }
