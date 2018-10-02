@@ -12,3 +12,25 @@ IVA
 total factura
 
 
+JSON
+'$key' : string;
+'date' : Date;
+'document' : string;
+'clientName' : string;
+'address' : string;
+'clientPhone' : string;
+'employeeName' : string;
+'employeePhone' : string;
+'products' : [
+    { 'productCode' : string;
+    'productName' : string; 
+    'quantity' : number;
+    'price' : number; },
+
+    { 'productCode' : string;
+    'productName' : string; 
+    'quantity' : number;
+    'price' : number; }
+];
+
+
